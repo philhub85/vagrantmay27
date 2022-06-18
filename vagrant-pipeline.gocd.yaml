@@ -1,0 +1,28 @@
+format_version: 10
+pipelines:
+  vagrant-pipeline:
+    group: defaultGroup
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      git-8748c80:
+        git: https://github.com/philhub85/vagrantmay27.git
+        shallow_clone: false
+        auto_update: true
+        branch: master
+    stages:
+    - test-and-report:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          run-unit-tests:
+            timeout: 0
+            tasks:
+            - exec:
+                command: run-unit-tests
+                run_if: passed
